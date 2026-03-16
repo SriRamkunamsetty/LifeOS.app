@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /tasks/{taskId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /habits/{habitId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /notes/{noteId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /diet_logs/{logId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /water_logs/{logId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /weight_logs/{logId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+
+    match /fitness_logs/{logId} {
+      allow read, create, update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.userId == request.auth.uid
+      );
+    }
+  }
+}
